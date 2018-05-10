@@ -5,14 +5,14 @@ x_k=x0
 counter=0;
 
 while(1)
-%     if(norm(Gradient(func,x_k))<eps)
-%         disp("GRAD")
-%         disp(norm(Gradient(func,x_k)))
-%         x_res=x_k
-%         break
-%     end       
+    if(norm(Gradient(func,x_k))<eps)
+        disp("GRAD")
+        disp(norm(Gradient(func,x_k)))
+        x_res=x_k
+        break
+    end       
     x_new=x_k-LambdaOPT(func,x_k,eps).*Gradient(func,x_k)
-    if(norm(x_new-x_k)<eps)
+    if((norm(x_new-x_k)/norm(x_k))<eps)
         disp("X")
         disp(norm(x_new-x_k)/norm(x_k))
         x_res=x_new
