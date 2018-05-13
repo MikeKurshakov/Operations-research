@@ -1,37 +1,55 @@
-function lambda=LambdaOPT(func,x,eps)
-s=-Gradient(func,x)
-interval = Sven(func,x,s)
+function lambda = LambdaOPT(f,x,eps)
+s=-Gradient(f,x)
 
-a = interval(1);
-b = interval(2);
+counter=0
+counter=counter+4
 
-c =  (a + b ) / 2;
-disp("Метод Дихотомии");
-fprintf('Интервал A = %f  B = %f\n',a,b);
-while (b - a > eps) 
-    
-L1 = (a  + c ) / 2;
-L2 = (b  + c ) / 2;
+interval = Sven(f,x,s)
+counter=counter+interval(3)
 
-if (func(x + L1*s) < func(x + c*s))
-     b = c;
-     c = L1;
-else
-     if (func(x + L2*s) < func(x + c*s))
-        a = c;
-        c = L2;
-    else 
-        a = L1;
-        b = L2;
+l1 = interval(1);
+l3 = interval(2);
+l2 = (l3+l1) / 2;
+
+f1 = f(x + l1*s);
+f2 = f(x + l2*s);
+f3 = f(x + l3*s);
+counter=counter+3
+
+a1 = (f2 - f1) / (l2 - l1);
+a2 = ((f3 - f1) / (l3 - l1) - (f2-f1)/(l2-l1))/(l3-l2);
+
+l0 = (l1+l2)/2 - a1/(2*a2);
+f0 = f (x + l0*s);
+counter=counter+1
+while ( abs(f0 -f2)>eps)||(abs(l0-l2)>eps && (f0 ~= f2))
+    if (f0>f2)&&(l0<l2)
+        f1 = f0;
+        l1 = l0;
+    else
+         if (f0>f2)&&(l0>l2)
+          f3 = f0;
+          l3 = l0;
+         else
+              if (f0<f2)&&(l0<l2)
+                    f3 = f2;
+                    f2 = f0;
+                    l3 = l2;
+                    l2 = l0;
+              else
+                    f1 = f2;
+                    f2 = f0;
+                    l1 = l2;
+                    l2 = l0;
+              end
+        end
     end
-end 
-fprintf('Интервал A = %f  B = %f\n',a,b);
+a1 = (f2-f1)/(l2-l1);
+a2 = ((f3-f1)/(l3-l1) - (f2-f1)/(l2-l1))/(l3-l2);
+l0 = (l1+l2)/2 - a1/(2*a2);
+f0 = f(x + l0*s);
+counter=counter+1
 end
 
-disp("Окончательный интервал");
-fprintf('Интервал A = %f  B = %f\n',a,b);
-disp("Оптимальная лямбда = ");
-fprintf("%f",(a+b)/2);
-lambda = (a+b)/2;
-
+lambda = [l0 counter];
 end
