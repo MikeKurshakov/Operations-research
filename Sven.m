@@ -1,9 +1,9 @@
 function interval = Sven(f,x0,s)
 
-disp("Метод Свена");
-step = 0.1 *  norm(x0)/norm(s);
+step = 0.08 *  norm(x0)/norm(s);
 
 counter=0
+counter=counter+3
 if (f(x0)<f(x0+step*s) && f(x0)>f(x0-step*s))
     step = -step;
 else 
@@ -12,9 +12,6 @@ else
         return;
     end
 end
-counter=counter+3
-
-fprintf("Шаг для лямбды %d\n",step);
 
 
 lambda = 0;
@@ -23,7 +20,6 @@ b = lambda + step;
 k = 1;
 i = 1;
 
-fprintf('Интервал A = %f  B = %f\n',a,b);
 
 while (f(x0+b*s)<f(x0+a*s))
     counter=counter+2
@@ -31,7 +27,7 @@ while (f(x0+b*s)<f(x0+a*s))
     i = i +1;
     a = b;
     b = b + k*step;
-    fprintf('Интервал A = %f  B = %f\n',a,b);
+
 end
 
 c = (a+b)/2;
@@ -49,9 +45,5 @@ if (a>b)
 end
  left = a;
  right = b;
- interval = [left right counter];
- 
-disp("Окончательный интервал");
-fprintf('Интервал A = %f  B = %f\n',a,b);
- 
+ interval = [left right counter]; 
 end

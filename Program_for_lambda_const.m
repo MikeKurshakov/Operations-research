@@ -1,10 +1,10 @@
 func=@(x)(10*(x(1)-x(2))^2+(x(1)-1)^2)^(4)
-%func=@(x)x(1)^2+25*x(2)^2
+% func=@(x)x(1)^2+25*x(2)^2
 eps=0.00001
 x0=[-1.2;0]
 x_k=x0
 counter=0
-lambdaCONST=1
+lambdaCONST=0.4
 
 while(1)
 %     if(norm(Gradient(func,x_k))<eps)

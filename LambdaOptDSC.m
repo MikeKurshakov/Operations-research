@@ -1,4 +1,4 @@
-function lambda = LambdaOPT(f,x,eps)
+function lambda = LambdaOptDSC(f,x,eps)
 s=-Gradient(f,x)
 
 counter=0
